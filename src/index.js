@@ -1263,4 +1263,5 @@ anime.easing = parseEasings;
 anime.penner = penner;
 anime.random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-export default anime;
+// export default anime;
+module.exports=anime;
