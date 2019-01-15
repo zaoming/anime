@@ -14,7 +14,10 @@
     "lib"
   ],
   "scripts": {
-    "build": "node build"
+    "build": "node build",
+    "lint": "eslint src/**/*.js && prettier \"src/**/*.js\" --list-different",
+    "format": "prettier --write \"src/**/*.js\"",
+    "precommit": "lint-staged"
   },
   "bugs": {
     "url": "https://github.com/juliangarnier/anime/issues"
@@ -29,10 +32,19 @@
     "canvas"
   ],
   "devDependencies": {
+    "eslint": "^5.12.0",
     "gzip-size": "^4.1.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.3",
     "pretty-bytes": "^4.0.2",
     "rollup": "^0.53.2",
     "rollup-plugin-buble": "^0.18.0",
     "uglify-js": "^3.3.4"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
