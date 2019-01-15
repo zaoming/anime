@@ -5,15 +5,7 @@
     "sourceType": "module"
   },
   "env": {
-    "node": true,
+    "browser": true,
     "es6": true
-  },
-  "globals": {
-    "document": true,
-    "HTMLCollection": true,
-    "HTMLInputElement": true,
-    "NodeList": true,
-    "SVGElement": true,
-    "window": true
   }
 }
