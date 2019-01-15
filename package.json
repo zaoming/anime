@@ -14,8 +14,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "node build",
-    "test": "jest"
+    "build": "node build"
   },
   "bugs": {
     "url": "https://github.com/juliangarnier/anime/issues"
@@ -34,7 +33,6 @@
     "pretty-bytes": "^4.0.2",
     "rollup": "^0.53.2",
     "rollup-plugin-buble": "^0.18.0",
-    "uglify-js": "^3.3.4",
-    "jest": "^23.6.0"
+    "uglify-js": "^3.3.4"
   }
 }
