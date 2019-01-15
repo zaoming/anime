@@ -525,7 +525,7 @@ function getCSSValue(el, prop, unit) {
       .toLowerCase();
     const value =
       el.style[prop] ||
-      window.getComputedStyle(el).getPropertyValue(uppercasePropName) ||
+      getComputedStyle(el).getPropertyValue(uppercasePropName) ||
       '0';
     return unit ? convertPxToUnit(el, value, unit) : value;
   }
@@ -1032,7 +1032,7 @@ let raf;
 
 const engine = (() => {
   function play() {
-    raf = window.requestAnimationFrame(step);
+    raf = requestAnimationFrame(step);
   }
   function step(t) {
     let activeInstancesLength = activeInstances.length;
@@ -1053,7 +1053,7 @@ const engine = (() => {
       }
       play();
     } else {
-      raf = window.cancelAnimationFrame(raf);
+      raf = cancelAnimationFrame(raf);
     }
   }
   return play;
