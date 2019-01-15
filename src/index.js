@@ -10,7 +10,7 @@ const defaultInstanceSettings = {
   loopComplete: null,
   complete: null,
   loop: 1,
-  direction: "normal",
+  direction: 'normal',
   autoplay: true,
   timelineOffset: 0
 };
@@ -19,26 +19,26 @@ const defaultTweenSettings = {
   duration: 1000,
   delay: 0,
   endDelay: 0,
-  easing: "easeOutElastic(1, .5)",
+  easing: 'easeOutElastic(1, .5)',
   round: 0
 };
 
 const validTransforms = [
-  "translateX",
-  "translateY",
-  "translateZ",
-  "rotate",
-  "rotateX",
-  "rotateY",
-  "rotateZ",
-  "scale",
-  "scaleX",
-  "scaleY",
-  "scaleZ",
-  "skew",
-  "skewX",
-  "skewY",
-  "perspective"
+  'translateX',
+  'translateY',
+  'translateZ',
+  'rotate',
+  'rotateX',
+  'rotateY',
+  'rotateZ',
+  'scale',
+  'scaleX',
+  'scaleY',
+  'scaleZ',
+  'skew',
+  'skewX',
+  'skewY',
+  'perspective'
 ];
 
 // Caching
@@ -64,14 +64,14 @@ function applyArguments(func, args) {
 
 const is = {
   arr: a => Array.isArray(a),
-  obj: a => stringContains(Object.prototype.toString.call(a), "Object"),
-  pth: a => is.obj(a) && a.hasOwnProperty("totalLength"),
+  obj: a => stringContains(Object.prototype.toString.call(a), 'Object'),
+  pth: a => is.obj(a) && a.hasOwnProperty('totalLength'),
   svg: a => a instanceof SVGElement,
   inp: a => a instanceof HTMLInputElement,
   dom: a => a.nodeType || is.svg(a),
-  str: a => typeof a === "string",
-  fnc: a => typeof a === "function",
-  und: a => typeof a === "undefined",
+  str: a => typeof a === 'string',
+  fnc: a => typeof a === 'function',
+  und: a => typeof a === 'undefined',
   hex: a => /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(a),
   rgb: a => /^rgb/.test(a),
   hsl: a => /^hsl/.test(a),
@@ -79,15 +79,15 @@ const is = {
   key: a =>
     !defaultInstanceSettings.hasOwnProperty(a) &&
     !defaultTweenSettings.hasOwnProperty(a) &&
-    a !== "targets" &&
-    a !== "keyframes"
+    a !== 'targets' &&
+    a !== 'keyframes'
 };
 
 // Easings
 
 function parseEasingParameters(string) {
   const match = /\(([^)]+)\)/.exec(string);
-  return match ? match[1].split(",").map(p => parseFloat(p)) : [];
+  return match ? match[1].split(',').map(p => parseFloat(p)) : [];
 }
 
 // Spring solver inspired by Webkit Copyright © 2016 Apple Inc. All rights reserved. https://webkit.org/demos/spring/spring.js
@@ -272,15 +272,15 @@ const bezier = (() => {
 
 const penner = (() => {
   const names = [
-    "Quad",
-    "Cubic",
-    "Quart",
-    "Quint",
-    "Sine",
-    "Expo",
-    "Circ",
-    "Back",
-    "Elastic"
+    'Quad',
+    'Cubic',
+    'Quart',
+    'Quint',
+    'Sine',
+    'Expo',
+    'Circ',
+    'Back',
+    'Elastic'
   ];
 
   // Approximated Penner equations http://matthewlein.com/ceaser/
@@ -330,7 +330,7 @@ const penner = (() => {
 
   for (let coords in curves) {
     curves[coords].forEach((ease, i) => {
-      eases["ease" + coords + names[i]] = ease;
+      eases['ease' + coords + names[i]] = ease;
     });
   }
 
@@ -339,15 +339,15 @@ const penner = (() => {
 
 function parseEasings(easing, duration) {
   if (is.fnc(easing)) return easing;
-  const name = easing.split("(")[0];
+  const name = easing.split('(')[0];
   const ease = penner[name];
   const args = parseEasingParameters(easing);
   switch (name) {
-    case "spring":
+    case 'spring':
       return spring(easing, duration);
-    case "cubicBezier":
+    case 'cubicBezier':
       return applyArguments(bezier, args);
-    case "steps":
+    case 'steps':
       return applyArguments(steps, args);
     default:
       return is.fnc(ease)
@@ -482,10 +482,10 @@ function getUnit(val) {
 }
 
 function getTransformUnit(propName) {
-  if (stringContains(propName, "translate") || propName === "perspective")
-    return "px";
-  if (stringContains(propName, "rotate") || stringContains(propName, "skew"))
-    return "deg";
+  if (stringContains(propName, 'translate') || propName === 'perspective')
+    return 'px';
+  if (stringContains(propName, 'rotate') || stringContains(propName, 'skew'))
+    return 'deg';
 }
 
 // Values
@@ -501,7 +501,7 @@ function getAttribute(el, prop) {
 
 function convertPxToUnit(el, value, unit) {
   const valueUnit = getUnit(value);
-  if (arrayContains([unit, "deg", "rad", "turn"], valueUnit)) return value;
+  if (arrayContains([unit, 'deg', 'rad', 'turn'], valueUnit)) return value;
   const cached = cache.CSS[value + unit];
   if (!is.und(cached)) return cached;
   const baseline = 100;
@@ -509,7 +509,7 @@ function convertPxToUnit(el, value, unit) {
   const parentEl =
     el.parentNode && el.parentNode !== document ? el.parentNode : document.body;
   parentEl.appendChild(tempEl);
-  tempEl.style.position = "absolute";
+  tempEl.style.position = 'absolute';
   tempEl.style.width = baseline + unit;
   const factor = baseline / tempEl.offsetWidth;
   parentEl.removeChild(tempEl);
@@ -521,12 +521,12 @@ function convertPxToUnit(el, value, unit) {
 function getCSSValue(el, prop, unit) {
   if (prop in el.style) {
     const uppercasePropName = prop
-      .replace(/([a-z])([A-Z])/g, "$1-$2")
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
       .toLowerCase();
     const value =
       el.style[prop] ||
       window.getComputedStyle(el).getPropertyValue(uppercasePropName) ||
-      "0";
+      '0';
     return unit ? convertPxToUnit(el, value, unit) : value;
   }
 }
@@ -537,16 +537,16 @@ function getAnimationType(el, prop) {
     !is.inp(el) &&
     (getAttribute(el, prop) || (is.svg(el) && el[prop]))
   )
-    return "attribute";
-  if (is.dom(el) && arrayContains(validTransforms, prop)) return "transform";
-  if (is.dom(el) && (prop !== "transform" && getCSSValue(el, prop)))
-    return "css";
-  if (el[prop] != null) return "object";
+    return 'attribute';
+  if (is.dom(el) && arrayContains(validTransforms, prop)) return 'transform';
+  if (is.dom(el) && (prop !== 'transform' && getCSSValue(el, prop)))
+    return 'css';
+  if (el[prop] != null) return 'object';
 }
 
 function getElementTransforms(el) {
   if (!is.dom(el)) return;
-  const str = el.style.transform || "";
+  const str = el.style.transform || '';
   const reg = /(\w+)\(([^)]*)\)/g;
   const transforms = new Map();
   let m;
@@ -555,24 +555,24 @@ function getElementTransforms(el) {
 }
 
 function getTransformValue(el, propName, animatable, unit) {
-  const defaultVal = stringContains(propName, "scale")
+  const defaultVal = stringContains(propName, 'scale')
     ? 1
     : 0 + getTransformUnit(propName);
   const value = getElementTransforms(el).get(propName) || defaultVal;
   if (animatable) {
     animatable.transforms.list.set(propName, value);
-    animatable.transforms["last"] = propName;
+    animatable.transforms['last'] = propName;
   }
   return unit ? convertPxToUnit(el, value, unit) : value;
 }
 
 function getOriginalTargetValue(target, propName, unit, animatable) {
   switch (getAnimationType(target, propName)) {
-    case "transform":
+    case 'transform':
       return getTransformValue(target, propName, animatable, unit);
-    case "css":
+    case 'css':
       return getCSSValue(target, propName, unit);
-    case "attribute":
+    case 'attribute':
       return getAttribute(target, propName);
     default:
       return target[propName] || 0;
@@ -584,13 +584,13 @@ function getRelativeValue(to, from) {
   if (!operator) return to;
   const u = getUnit(to) || 0;
   const x = parseFloat(from);
-  const y = parseFloat(to.replace(operator[0], ""));
+  const y = parseFloat(to.replace(operator[0], ''));
   switch (operator[0][0]) {
-    case "+":
+    case '+':
       return x + y + u;
-    case "-":
+    case '-':
       return x - y + u;
-    case "*":
+    case '*':
       return x * y + u;
   }
 }
@@ -612,17 +612,17 @@ function getDistance(p1, p2) {
 }
 
 function getCircleLength(el) {
-  return Math.PI * 2 * getAttribute(el, "r");
+  return Math.PI * 2 * getAttribute(el, 'r');
 }
 
 function getRectLength(el) {
-  return getAttribute(el, "width") * 2 + getAttribute(el, "height") * 2;
+  return getAttribute(el, 'width') * 2 + getAttribute(el, 'height') * 2;
 }
 
 function getLineLength(el) {
   return getDistance(
-    {x: getAttribute(el, "x1"), y: getAttribute(el, "y1")},
-    {x: getAttribute(el, "x2"), y: getAttribute(el, "y2")}
+    {x: getAttribute(el, 'x1'), y: getAttribute(el, 'y1')},
+    {x: getAttribute(el, 'x2'), y: getAttribute(el, 'y2')}
   );
 }
 
@@ -651,22 +651,22 @@ function getPolygonLength(el) {
 function getTotalLength(el) {
   if (el.getTotalLength) return el.getTotalLength();
   switch (el.tagName.toLowerCase()) {
-    case "circle":
+    case 'circle':
       return getCircleLength(el);
-    case "rect":
+    case 'rect':
       return getRectLength(el);
-    case "line":
+    case 'line':
       return getLineLength(el);
-    case "polyline":
+    case 'polyline':
       return getPolylineLength(el);
-    case "polygon":
+    case 'polygon':
       return getPolygonLength(el);
   }
 }
 
 function setDashoffset(el) {
   const pathLength = getTotalLength(el);
-  el.setAttribute("stroke-dasharray", pathLength);
+  el.setAttribute('stroke-dasharray', pathLength);
   return pathLength;
 }
 
@@ -685,12 +685,12 @@ function getParentSvg(pathEl, svgData) {
   const svg = svgData || {};
   const parentSvgEl = svg.el || getParentSvgEl(pathEl);
   const rect = parentSvgEl.getBoundingClientRect();
-  const viewBoxAttr = getAttribute(parentSvgEl, "viewBox");
+  const viewBoxAttr = getAttribute(parentSvgEl, 'viewBox');
   const width = rect.width;
   const height = rect.height;
   const viewBox =
     svg.viewBox ||
-    (viewBoxAttr ? viewBoxAttr.split(" ") : [0, 0, width, height]);
+    (viewBoxAttr ? viewBoxAttr.split(' ') : [0, 0, width, height]);
   return {
     el: parentSvgEl,
     viewBox: viewBox,
@@ -724,11 +724,11 @@ function getPathProgress(path, progress) {
   const p0 = point(-1);
   const p1 = point(+1);
   switch (path.property) {
-    case "x":
+    case 'x':
       return (p.x - svg.x) * svg.w;
-    case "y":
+    case 'y':
       return (p.y - svg.y) * svg.h;
-    case "angle":
+    case 'angle':
       return (Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180) / Math.PI;
   }
 }
@@ -737,7 +737,7 @@ function getPathProgress(path, progress) {
 
 function decomposeValue(val, unit) {
   const rgx = /-?\d*\.?\d+/g;
-  const value = validateValue(is.pth(val) ? val.totalLength : val, unit) + "";
+  const value = validateValue(is.pth(val) ? val.totalLength : val, unit) + '';
   return {
     original: value,
     numbers: value.match(rgx) ? value.match(rgx).map(Number) : [0],
@@ -902,7 +902,7 @@ const setProgressValue = {
   transform: (t, p, v, transforms, manual) => {
     transforms.list.set(p, v);
     if (p === transforms.last || manual) {
-      let str = "";
+      let str = '';
       transforms.list.forEach((value, prop) => {
         str += `${prop}(${value}) `;
       });
@@ -1069,7 +1069,7 @@ function handleVisibilityChange() {
   }
 }
 
-document.addEventListener("visibilitychange", handleVisibilityChange);
+document.addEventListener('visibilitychange', handleVisibilityChange);
 
 // Public Instance
 
@@ -1164,7 +1164,7 @@ function anime(params = {}) {
           const n = numbers[s];
           if (!isNaN(n)) {
             if (!b) {
-              progress += n + " ";
+              progress += n + ' ';
             } else {
               progress += n + b;
             }
@@ -1204,8 +1204,8 @@ function anime(params = {}) {
     }
     if (!instance.began && instance.currentTime > 0) {
       instance.began = true;
-      setCallback("begin");
-      setCallback("loopBegin");
+      setCallback('begin');
+      setCallback('loopBegin');
     }
     if (insTime <= insDelay && instance.currentTime !== 0) {
       setAnimationsProgress(0);
@@ -1220,36 +1220,36 @@ function anime(params = {}) {
       if (!instance.changeBegan) {
         instance.changeBegan = true;
         instance.changeCompleted = false;
-        setCallback("changeBegin");
+        setCallback('changeBegin');
       }
-      setCallback("change");
+      setCallback('change');
       setAnimationsProgress(insTime);
     } else {
       if (instance.changeBegan) {
         instance.changeCompleted = true;
         instance.changeBegan = false;
-        setCallback("changeComplete");
+        setCallback('changeComplete');
       }
     }
     instance.currentTime = minMax(insTime, 0, insDuration);
-    if (instance.began) setCallback("update");
+    if (instance.began) setCallback('update');
     if (engineTime >= insDuration) {
       lastTime = 0;
       countIteration();
       if (instance.remaining) {
         startTime = now;
-        setCallback("loopComplete");
-        setCallback("loopBegin");
-        if (instance.direction === "alternate") {
+        setCallback('loopComplete');
+        setCallback('loopBegin');
+        if (instance.direction === 'alternate') {
           toggleInstanceDirection();
         }
       } else {
         instance.paused = true;
         if (!instance.completed) {
           instance.completed = true;
-          setCallback("loopComplete");
-          setCallback("complete");
-          if ("Promise" in window) {
+          setCallback('loopComplete');
+          setCallback('complete');
+          if ('Promise' in window) {
             resolve();
             promise = makePromise();
           }
@@ -1269,14 +1269,14 @@ function anime(params = {}) {
     instance.completed = false;
     instance.changeCompleted = false;
     instance.reversePlayback = false;
-    instance.reversed = direction === "reverse";
+    instance.reversed = direction === 'reverse';
     instance.remaining = instance.loop;
     children = instance.children;
     childrenLength = children.length;
     for (let i = childrenLength; i--; ) instance.children[i].reset();
     if (
       (instance.reversed && instance.loop !== true) ||
-      (direction === "alternate" && instance.loop === 1)
+      (direction === 'alternate' && instance.loop === 1)
     )
       instance.remaining++;
     setAnimationsProgress(0);
@@ -1361,14 +1361,14 @@ function removeTargets(targets) {
 // Stagger helpers
 
 function stagger(val, params = {}) {
-  const direction = params.direction || "normal";
+  const direction = params.direction || 'normal';
   const easing = params.easing ? parseEasings(params.easing) : null;
   const grid = params.grid;
   const axis = params.axis;
   let fromIndex = params.from || 0;
-  const fromFirst = fromIndex === "first";
-  const fromCenter = fromIndex === "center";
-  const fromLast = fromIndex === "last";
+  const fromFirst = fromIndex === 'first';
+  const fromCenter = fromIndex === 'center';
+  const fromLast = fromIndex === 'last';
   const isRange = is.arr(val);
   const val1 = isRange ? parseFloat(val[0]) : parseFloat(val);
   const val2 = isRange ? parseFloat(val[1]) : 0;
@@ -1394,14 +1394,14 @@ function stagger(val, params = {}) {
           const distanceX = fromX - toX;
           const distanceY = fromY - toY;
           let value = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-          if (axis === "x") value = -distanceX;
-          if (axis === "y") value = -distanceY;
+          if (axis === 'x') value = -distanceX;
+          if (axis === 'y') value = -distanceY;
           values.push(value);
         }
         maxValue = Math.max(...values);
       }
       if (easing) values = values.map(val => easing(val / maxValue) * maxValue);
-      if (direction === "reverse")
+      if (direction === 'reverse')
         values = values.map(val =>
           axis ? (val < 0 ? val * -1 : -val) : Math.abs(maxValue - val)
         );
@@ -1452,7 +1452,7 @@ function timeline(params = {}) {
   return tl;
 }
 
-anime.version = "3.0.0";
+anime.version = '3.0.0';
 anime.speed = 1;
 anime.running = activeInstances;
 anime.remove = removeTargets;
