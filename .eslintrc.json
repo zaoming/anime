@@ -2,10 +2,12 @@
   "root": true,
   "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
+    "parser": "babel-eslint",
     "ecmaVersion": 8,
     "sourceType": "module"
   },
   "env": {
+    "node": true,
     "browser": true,
     "es6": true,
     "jest": true

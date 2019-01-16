@@ -1,6 +1,6 @@
 const anime = require('../src');
 
-console.log(anime);
+// console.log(anime);
 
 describe('Anime exports', () => {
   test('anime should be defined', () => {
