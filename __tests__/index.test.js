@@ -1,7 +1,3 @@
-require('jest-dom/extend-expect');
-
-const anime = require('../src').default;
-
 describe('Anime exports', () => {
   test('anime should be defined', () => {
     expect(anime).toBeDefined();

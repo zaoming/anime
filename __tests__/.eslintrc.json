@@ -1,0 +1,10 @@
+{
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "globals": {
+    "anime": true,
+    "browser": true
+  }
+}
