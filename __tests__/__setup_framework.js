@@ -1,7 +1,7 @@
 require('jest-dom/extend-expect');
 require('jest-extended');
 
-// Your global setup
+// configure anime globals
 global.anime = require('../src');
 
 // prepare template for testing
