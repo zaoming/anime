@@ -72,27 +72,21 @@ describe('CONTROLS', () => {
       opacity: 1,
       duration: 100,
       autoplay: false,
-      loop: true
+      easing: 'linear',
+      complete: () => {
+        expect(target.opacity).toBe(0);
+
+        done();
+      }
     });
 
-    expect(animation.progress).toBe(0);
-    expect(animation.began).toBeFalse();
+    // rewrite without using seek
+    animation.seek(75);
 
+    expect(target.opacity).toBe(0.75);
+
+    animation.reverse();
     animation.play();
-
-    window.setTimeout(() => {
-      animation.pause();
-
-      expect(animation.progress).toBeGreaterThan(0);
-      expect(animation.completed).toBeFalse();
-
-      animation.restart();
-
-      expect(animation.progress).toBe(0);
-      expect(animation.began).toBeFalsy();
-
-      done();
-    }, 50);
   });
 
   test('SEEK', done => {
@@ -102,60 +96,13 @@ describe('CONTROLS', () => {
       targets: target,
       opacity: 1,
       duration: 100,
-      autoplay: false
+      autoplay: false,
+      easing: 'linear'
     });
 
-    expect(animation.progress).toBe(0);
-    expect(animation.remaining).toBe(1);
-    expect(animation.began).toBeFalse();
+    animation.seek(75);
 
-    animation.play();
-
-    window.setTimeout(() => {
-      animation.pause();
-
-      expect(animation.progress).toBeGreaterThan(0);
-      expect(animation.completed).toBeFalse();
-
-      animation.restart();
-
-      expect(animation.progress).toBe(0);
-      expect(animation.remaining).toBe(1);
-      expect(animation.began).toBeFalse();
-
-      done();
-    }, 100);
-  });
-
-  test('TIMELINE CONTROLS', done => {
-    const target = {opacity: 0};
-
-    const animation = anime({
-      targets: target,
-      opacity: 1,
-      duration: 100,
-      autoplay: false
-    });
-
-    expect(animation.progress).toBe(0);
-    expect(animation.remaining).toBe(1);
-    expect(animation.began).toBeFalse();
-
-    animation.play();
-
-    window.setTimeout(() => {
-      animation.pause();
-
-      expect(animation.progress).toBeGreaterThan(0);
-      expect(animation.completed).toBeFalse();
-
-      animation.restart();
-
-      expect(animation.progress).toBe(0);
-      expect(animation.remaining).toBe(1);
-      expect(animation.began).toBeFalse();
-
-      done();
-    }, 100);
+    expect(target.opacity).toBe(0.75);
+    done();
   });
 });
