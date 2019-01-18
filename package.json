@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "node build",
-    "lint": "eslint ./src && prettier ./src/**/*.js --list-different",
+    "lint": "eslint ./src ./__tests__ && prettier ./src/**/*.js --list-different",
     "format": "prettier --write ./src/**/*.js",
     "precommit": "lint-staged",
     "test": "jest",

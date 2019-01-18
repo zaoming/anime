@@ -1,3 +1,1 @@
-module.exports = async () => {
-  // Your global teardown
-};
+module.exports = async () => {};
