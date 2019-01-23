@@ -11,4 +11,5 @@ cache:
     - 'node_modules'
 
 script:
-  - jest && codecov
+  - npm run test
+  - codecov

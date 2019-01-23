@@ -45,7 +45,7 @@ describe('ANIMATION PARAMETERS', () => {
       changeBegin: (a, b, c) => {
         begins += 1;
 
-        console.log(a, b, c);
+        // console.log(a, b, c);
       },
       changeComplete: () => {
         completes += 1;
