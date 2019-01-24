@@ -27,14 +27,9 @@ describe('ANIMATION PARAMETERS', () => {
 
     animation.seek(40);
     // TODO: should be 60, library error
-    // expect(target.opacity).toBeCloseTo(60);
+    expect(target.opacity).toBe(60);
 
     // alternate
-    let begins = 0;
-    let completes = 0;
-    let beginValues = [];
-    let completeValues = [];
-
     animation = anime({
       targets: target,
       opacity: 100,
@@ -42,21 +37,15 @@ describe('ANIMATION PARAMETERS', () => {
       easing: 'linear',
       direction: 'alternate',
       loop: true,
-      changeBegin: (a, b, c) => {
-        begins += 1;
-
-        // console.log(a, b, c);
-      },
-      changeComplete: () => {
-        completes += 1;
-
-        if (completes === 2) {
-          console.log(begins, completes);
-
-          expect(begins).toBe(2);
-          done();
-        }
-      }
+      autoplay: false
     });
+
+    animation.seek(100);
+    expect(target.opacity).toBe(100);
+
+    animation.seek(200);
+    expect(target.opacity).toBe(0);
+
+    done();
   });
 });

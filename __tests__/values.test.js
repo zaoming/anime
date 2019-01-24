@@ -45,7 +45,6 @@ describe('VALUES', () => {
 
     for (let i = 0; i < targets.length; i += 1) {
       const target = targets[i];
-      // TODO: needs to update this test
       expect(target.style.width).toBe('50%');
     }
   });
@@ -157,7 +156,7 @@ describe('VALUES', () => {
     animation.seek(50);
     expect(target[0].data).toBe(2.5);
     // TODO: invalid value returned
-    // expect(target[1].data).toBe(5);
+    expect(target[1].data).toBe(5);
 
     animation.seek(100);
     expect(target[0].data).toBe(5);
