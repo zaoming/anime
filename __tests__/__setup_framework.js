@@ -2,7 +2,7 @@ require('jest-dom/extend-expect');
 require('jest-extended');
 
 // configure anime globals
-global.anime = require('../src');
+// global.anime = require('../src');
 
 // prepare template for testing
 const targetA = document.createElement('div');
@@ -26,4 +26,7 @@ beforeEach(() => {
   targets.forEach(target => {
     target.removeAttribute('style');
   });
+
+  // configure anime globals
+  global.anime = require('../src');
 });

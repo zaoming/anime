@@ -17,12 +17,20 @@ describe('HELPERS', () => {
     animation.seek(40);
     expect(target.opacity).toBe(40);
 
+    [...targetsDOM].forEach(t => {
+      expect(t.style.opacity).toBe('40');
+    });
+
     anime.remove('.target');
-    //TODO: fix this test
-    // expect(animation.animatables.length).toBe(1);
+    //TODO: animation.animatables should be 1
+    expect(animation.animatables.length).toBe(1);
 
     animation.seek(80);
     expect(target.opacity).toBe(80);
+
+    [...targetsDOM].forEach(t => {
+      expect(t.style.opacity).toBe('40');
+    });
   });
 
   test('SET', () => {
@@ -86,21 +94,22 @@ describe('HELPERS', () => {
     const target = {opacity: 0};
 
     anime({
-      targets: [target],
+      targets: target,
       opacity: 100
     });
 
     anime({
-      targets: ['.target'],
+      targets: '.target',
       opacity: 100
     });
 
-    anime({
+    const a = anime({
       targets: [target, '.target'],
       opacity: 100
     });
 
-    //TODO: fix instances running count
-    // expect(anime.running.length).toBe(3);
+    // TODO: fix animation running instances
+    expect(anime.running.length).toBe(3);
+    expect(a.animations.length).toBe(3);
   });
 });
