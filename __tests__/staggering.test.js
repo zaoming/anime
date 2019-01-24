@@ -62,43 +62,63 @@ describe('STAGGERING', () => {
   });
 
   test('RANGE VALUE', () => {
-    const target = [{data: 0}, {data: 0}, {data: 0}, {date: 0}];
+    const target = [{data: 0}, {data: 0}, {data: 0}, {data: 0}, {data: 0}];
+    const range = [0, 100];
+    const step = (range[1] - range[0]) / (target.length - 1);
 
     const animation = anime({
       targets: target,
       autoplay: false,
       easing: 'linear',
       duration: 100,
-      data: anime.stagger([0, 20])
-      // 0: 0, 1: 5, 2: 10
+      data: anime.stagger(range)
+    });
+
+    animation.seek(100);
+    target.forEach((t, i) => {
+      expect(t.data).toBe(step * i);
     });
   });
 
-  test('FROM VALUE : start', () => {
-    // Stagger Postion : Start
-    const target = [{data: 0}, {data: 0}, {data: 0}];
+  test('FROM VALUE : first', () => {
+    // Stagger Postion : first
+    const target = [{data: 0}, {data: 0}, {data: 0}, {data: 0}, {data: 0}];
+    const step = 25;
 
     const animation = anime({
       targets: target,
       autoplay: false,
       easing: 'linear',
       duration: 100,
-      delay: anime.stagger(100, {from: 'start'}),
-      data: 10
+      data: anime.stagger(step, {
+        from: 'first'
+      })
+      // 0: 0, 1: 25, 2: 50, 3: 75, 3: 100
+    });
+
+    animation.seek(100);
+    target.forEach((t, i) => {
+      expect(t.data).toBe(step * i);
     });
   });
 
   test('FROM VALUE : center', () => {
-    // Stagger Postion : Start
-    const target = [{data: 0}, {data: 0}, {data: 0}];
+    const target = [{data: 0}, {data: 0}, {data: 0}, {data: 0}, {data: 0}];
+    const step = 25;
 
     const animation = anime({
       targets: target,
       autoplay: false,
       easing: 'linear',
       duration: 100,
-      delay: anime.stagger(100, {from: 'center'}),
-      data: 10
+      data: anime.stagger(step, {from: 'center'})
+    });
+
+    animation.seek(100);
+    target.forEach((t, i) => {
+      // TODO: finish this
+      console.log(step * 25 - 25 * 2, t);
+      // expect(t.data).toBe(i);
     });
   });
 
