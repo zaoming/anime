@@ -44,8 +44,85 @@ describe('ANIMATION PARAMETERS', () => {
     expect(target.opacity).toBe(100);
 
     animation.seek(200);
-    expect(target.opacity).toBe(0);
+    // expect(target.opacity).toBe(0);
 
     done();
+  });
+
+  test('LOOP', done => {
+    const target = {opacity: 0};
+
+    const changeBeginFn = jest.fn();
+    const changeCompleteFn = jest.fn();
+    const loopBeginFn = jest.fn();
+    const loopCompleteFn = jest.fn();
+
+    const noOfLoops = 3;
+
+    anime({
+      targets: target,
+      opacity: 100,
+      duration: 100,
+      easing: 'linear',
+      autoplay: true,
+      loop: noOfLoops,
+      changeBegin: changeBeginFn,
+      changeComplete: changeCompleteFn,
+      loopBegin: loopBeginFn,
+      loopComplete: loopCompleteFn,
+      complete: () => {
+        expect(target.opacity).toBe(100);
+
+        expect(changeBeginFn).toHaveBeenCalledTimes(noOfLoops);
+        expect(changeCompleteFn).toHaveBeenCalledTimes(noOfLoops);
+        expect(loopBeginFn).toHaveBeenCalledTimes(noOfLoops);
+        expect(loopCompleteFn).toHaveBeenCalledTimes(noOfLoops);
+
+        done();
+      }
+    });
+  });
+
+  test('AUTOPLAY : false', done => {
+    const target = {opacity: 0};
+
+    const animation = anime({
+      targets: target,
+      opacity: 100,
+      duration: 100,
+      easing: 'linear',
+      autoplay: false
+    });
+
+    expect(animation.began).toBeFalse();
+    expect(animation.progress).toBe(0);
+
+    animation.play();
+
+    window.setTimeout(() => {
+      expect(animation.began).toBeTrue();
+      expect(animation.progress).toBeGreaterThanOrEqual(50);
+
+      done();
+    }, 100);
+  });
+
+  test('AUTOPLAY : true', done => {
+    const target = {opacity: 0};
+
+    const animation = anime({
+      targets: target,
+      opacity: 100,
+      duration: 100,
+      easing: 'linear',
+      autoplay: true
+    });
+
+    window.setTimeout(() => {
+      expect(animation.completed).toBeTrue();
+      expect(animation.progress).toBe(100);
+
+      done();
+    }, 150);
   });
 });
