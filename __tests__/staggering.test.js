@@ -173,30 +173,71 @@ describe('STAGGERING', () => {
   });
 
   test('GRID', () => {
-    // Stagger Postion : Start
-    const target = [{data: 0}, {data: 0}, {data: 0}, {data: 0}];
+    const total = 25;
+    const rows = 5;
+    const cols = 5;
+    const mid = 3;
+    const targets = [];
+    const targets2d = [];
+
+    // fill grid with data
+    for (let i = 0; i < total; i += 1) {
+      targets.push({
+        data: 0
+      });
+    }
+
+    // create 2d array for eaiser testing
+    for (let i = 0; i < rows; i += 1) {
+      const arr = [];
+      for (let j = 0; j < cols; j += 1) {
+        arr.push(targets[i * cols + j]);
+      }
+
+      targets2d.push(arr);
+    }
 
     const animation = anime({
-      targets: target,
+      targets: targets,
       autoplay: false,
       easing: 'linear',
       duration: 100,
-      delay: anime.stagger(100, {grid: [2, 2]}),
-      data: 10
+      delay: anime.stagger(100, {grid: [rows, cols], from: 'center'}),
+      data: 100
     });
+
+    animation.seek(150);
+
+    // compare target values
+    for (let i = 0; i < rows; i += 1) {
+      for (let j = 0; j < cols; j += 1) {
+        const target = targets2d[i][j];
+        const xDist = j + mid - cols;
+        const yDist = i + mid - rows;
+        const dist = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+
+        if (dist > 2 && dist < 3) {
+          expect(target.data).toBe(0);
+        } else if (dist > 1 && dist < 2) {
+          expect(target.data).toBe(9);
+        } else if (dist === 3) {
+          expect(target.data).toBe(0);
+        } else if (dist === 2) {
+          expect(target.data).toBe(0);
+        } else if (dist === 1) {
+          expect(target.data).toBe(50);
+        } else if (dist === 0) {
+          expect(target.data).toBe(100);
+        }
+      }
+    }
   });
 
-  test('AXIS', () => {
-    // Stagger Postion : Start
-    const target = [{data: 0}, {data: 0}, {data: 0}, {data: 0}];
+  test('AXIS : x', () => {
+    //TODO: implement this
+  });
 
-    const animation = anime({
-      targets: target,
-      autoplay: false,
-      easing: 'linear',
-      duration: 100,
-      delay: anime.stagger(100, {grid: [2, 2], axis: 'x'}),
-      data: 10
-    });
+  test('AXIS : y', () => {
+    //TODO: implement this
   });
 });
