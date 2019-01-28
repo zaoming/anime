@@ -90,6 +90,7 @@ describe('CONTROLS', () => {
   });
 
   test('SEEK', done => {
+    //TODO: add more tests for seek
     const target = {opacity: 0};
 
     const animation = anime({

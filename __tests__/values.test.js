@@ -3,7 +3,7 @@ describe('VALUES', () => {
     const targets = document.getElementsByClassName('target');
 
     const animation = anime({
-      targets: '.target',
+      targets: targets,
       opacity: 1,
       translateX: 200,
       rotate: 180,

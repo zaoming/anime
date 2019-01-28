@@ -13,7 +13,7 @@ describe('ANIMATION PARAMETERS', () => {
     });
 
     animation.seek(40);
-    expect(target.opacity).toBeCloseTo(40);
+    expect(target.opacity).toBe(40);
 
     // reverse
     animation = anime({
@@ -44,7 +44,7 @@ describe('ANIMATION PARAMETERS', () => {
     expect(target.opacity).toBe(100);
 
     animation.seek(200);
-    // expect(target.opacity).toBe(0);
+    expect(target.opacity).toBe(0);
 
     done();
   });
