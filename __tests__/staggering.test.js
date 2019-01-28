@@ -169,7 +169,35 @@ describe('STAGGERING', () => {
   });
 
   test('EASING', () => {
-    //TODO: discuss how to cover this
+    const target = [{data: 0}, {data: 0}, {data: 0}];
+
+    const animation = anime({
+      targets: target,
+      autoplay: false,
+      easing: 'linear',
+      duration: 100,
+      delay: anime.stagger(100, {
+        easing: i => {
+          return i;
+        }
+      }),
+      data: 10
+    });
+
+    animation.seek(100);
+    expect(target[0].data).toBe(10);
+    expect(target[1].data).toBe(0);
+    expect(target[2].data).toBe(0);
+
+    animation.seek(200);
+    expect(target[0].data).toBe(10);
+    expect(target[1].data).toBe(10);
+    expect(target[2].data).toBe(0);
+
+    animation.seek(300);
+    expect(target[0].data).toBe(10);
+    expect(target[1].data).toBe(10);
+    expect(target[2].data).toBe(10);
   });
 
   test('GRID', () => {
@@ -234,10 +262,126 @@ describe('STAGGERING', () => {
   });
 
   test('AXIS : x', () => {
-    //TODO: implement this
+    const total = 25;
+    const rows = 5;
+    const cols = 5;
+    const targets = [];
+    const targets2d = [];
+
+    // fill grid with data
+    for (let i = 0; i < total; i += 1) {
+      targets.push({
+        data: 0
+      });
+    }
+
+    // create 2d array for eaiser testing
+    for (let i = 0; i < rows; i += 1) {
+      const arr = [];
+      for (let j = 0; j < cols; j += 1) {
+        arr.push(targets[i * cols + j]);
+      }
+
+      targets2d.push(arr);
+    }
+
+    const animation = anime({
+      targets: targets,
+      autoplay: false,
+      easing: 'linear',
+      duration: 100,
+      delay: anime.stagger(100, {grid: [rows, cols], axis: 'x'}),
+      data: 100
+    });
+
+    animation.seek(250);
+
+    // compare target values
+    for (let i = 0; i < rows; i += 1) {
+      for (let j = 0; j < cols; j += 1) {
+        const target = targets2d[i][j];
+
+        switch (j) {
+          case 0:
+            expect(target.data).toBe(100);
+            break;
+          case 1:
+            expect(target.data).toBe(100);
+            break;
+          case 2:
+            expect(target.data).toBe(50);
+            break;
+          case 3:
+            expect(target.data).toBe(0);
+            break;
+          case 4:
+          default:
+            expect(target.data).toBe(0);
+            break;
+        }
+      }
+    }
   });
 
   test('AXIS : y', () => {
-    //TODO: implement this
+    const total = 25;
+    const rows = 5;
+    const cols = 5;
+    const targets = [];
+    const targets2d = [];
+
+    // fill grid with data
+    for (let i = 0; i < total; i += 1) {
+      targets.push({
+        data: 0
+      });
+    }
+
+    // create 2d array for eaiser testing
+    for (let i = 0; i < rows; i += 1) {
+      const arr = [];
+      for (let j = 0; j < cols; j += 1) {
+        arr.push(targets[i * cols + j]);
+      }
+
+      targets2d.push(arr);
+    }
+
+    const animation = anime({
+      targets: targets,
+      autoplay: false,
+      easing: 'linear',
+      duration: 100,
+      delay: anime.stagger(100, {grid: [rows, cols], axis: 'y'}),
+      data: 100
+    });
+
+    animation.seek(250);
+
+    // compare target values
+    for (let i = 0; i < rows; i += 1) {
+      for (let j = 0; j < cols; j += 1) {
+        const target = targets2d[i][j];
+
+        switch (i) {
+          case 0:
+            expect(target.data).toBe(100);
+            break;
+          case 1:
+            expect(target.data).toBe(100);
+            break;
+          case 2:
+            expect(target.data).toBe(50);
+            break;
+          case 3:
+            expect(target.data).toBe(0);
+            break;
+          case 4:
+          default:
+            expect(target.data).toBe(0);
+            break;
+        }
+      }
+    }
   });
 });

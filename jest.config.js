@@ -3,7 +3,7 @@ module.exports = {
   bail: false,
   verbose: true,
   collectCoverage: true,
-  setupTestFrameworkScriptFile: './__tests__/__setup_framework.js',
+  setupFilesAfterEnv: ['./__tests__/__setup_framework.js'],
   globalSetup: './__tests__/__global_setup.js',
   globalTeardown: './__tests__/__global_teardown.js',
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'html'],
@@ -13,5 +13,6 @@ module.exports = {
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
     pretendToBeVisual: true
-  }
+  },
+  transform: {}
 };
