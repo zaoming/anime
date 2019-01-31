@@ -12,7 +12,7 @@ beforeEach(() => {
 
     <!-- SVG -->
     <svg id='target-svg' width="128" height="128" viewBox="0 0 128 128">
-      <path id="target-svg-path" d="M0 0 L100 100" />
+      <path fill="none" stroke-width="1" d="M0 0 L100 100" />
     </svg>
   `;
 
