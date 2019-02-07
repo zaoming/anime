@@ -6,21 +6,24 @@ describe('SVG', () => {
       angle: 0
     };
 
-    var path = anime.path('#target-svg');
+    const path = document.querySelector('#target-svg path');
+    const getPathAttr = anime.path(path);
 
     const animation = anime({
       targets: target,
-      translateX: path('x'),
-      translateY: path('y'),
-      rotate: path('angle'),
+      x: getPathAttr('x'),
+      y: getPathAttr('y'),
+      angle: getPathAttr('angle'),
       easing: 'linear',
       duration: 100,
       autoplay: false,
       loop: false
     });
 
-    animation.seek(500);
+    animation.seek(50);
 
-    console.log(target);
+    expect(target.x).toBeCloseTo(70, 0);
+    expect(target.x).toBeCloseTo(70, 0);
+    expect(target.angle).toBe(45);
   });
 });

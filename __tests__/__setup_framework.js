@@ -11,8 +11,8 @@ beforeEach(() => {
     <div id='target'></div>
 
     <!-- SVG -->
-    <svg id='target-svg' width="128" height="128" viewBox="0 0 128 128">
-      <path fill="none" stroke-width="1" d="M0 0 L100 100" />
+    <svg id='target-svg' width="100" height="100" viewBox="0 0 100 100">
+      <path fill="none" stroke-width="1" stroke="#000" d="M0 0 L0 100" />
     </svg>
   `;
 
