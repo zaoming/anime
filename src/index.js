@@ -1069,7 +1069,9 @@ function handleVisibilityChange() {
   }
 }
 
-document.addEventListener('visibilitychange', handleVisibilityChange);
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+}
 
 // Public Instance
 
@@ -1081,15 +1083,20 @@ function anime(params = {}) {
     childrenLength = 0;
   let resolve = null;
 
-  function makePromise() {
-    return window.Promise && new Promise(_resolve => (resolve = _resolve));
+  function makePromise(instance) {
+    const promise = window.Promise && new Promise(_resolve => resolve = _resolve);
+    instance.finished = promise;
+    return promise;
   }
 
-  let promise = makePromise();
-
   let instance = createNewInstance(params);
+  let promise = makePromise(instance);
 
   function toggleInstanceDirection() {
+    const direction = instance.direction;
+    if (direction !== 'alternate') {
+      instance.direction = direction !== 'normal' ? 'normal' : 'reverse';
+    }
     instance.reversed = !instance.reversed;
     children.forEach(child => (child.reversed = instance.reversed));
   }
@@ -1249,9 +1256,9 @@ function anime(params = {}) {
           instance.completed = true;
           setCallback('loopComplete');
           setCallback('complete');
-          if ('Promise' in window) {
+          if (!instance.passThrough && 'Promise' in window) {
             resolve();
-            promise = makePromise();
+            promise = makePromise(instance);
           }
         }
       }
@@ -1306,6 +1313,7 @@ function anime(params = {}) {
 
   instance.play = function() {
     if (!instance.paused) return;
+    if (instance.completed) instance.reset();
     instance.paused = false;
     activeInstances.push(instance);
     resetTime();
@@ -1322,7 +1330,6 @@ function anime(params = {}) {
     instance.play();
   };
 
-  instance.finished = promise;
   instance.reset();
 
   if (instance.autoplay) instance.play();
@@ -1452,7 +1459,7 @@ function timeline(params = {}) {
   return tl;
 }
 
-anime.version = '3.0.0';
+anime.version = '3.0.1';
 anime.speed = 1;
 anime.running = activeInstances;
 anime.remove = removeTargets;
