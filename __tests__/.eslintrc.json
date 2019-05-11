@@ -1,0 +1,13 @@
+{
+  "env": {
+    "jest": true,
+    "jest/globals": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:jest/recommended", "prettier"],
+  "globals": {
+    "anime": true,
+    "browser": true
+  },
+  "plugins": ["jest"]
+}
