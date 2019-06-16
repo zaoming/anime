@@ -126,7 +126,7 @@ function elastic(amplitude = 1, period = .5) {
   const a = minMax(amplitude, 1, 10);
   const p = minMax(period, .1, 2);
   return t => {
-    return (t === 0 || t === 1) ? t : 
+    return (t === 0 || t === 1) ? t :
       -a * Math.pow(2, 10 * (t - 1)) * Math.sin((((t - 1) - (p / (Math.PI * 2) * Math.asin(1 / a))) * (Math.PI * 2)) / p);
   }
 }
@@ -262,7 +262,7 @@ const penner = (() => {
     ]
   }
 
-  let eases = { 
+  let eases = {
     linear: [0.250, 0.250, 0.750, 0.750]
   }
 
@@ -460,7 +460,7 @@ function getAnimationType(el, prop) {
 
 function getElementTransforms(el) {
   if (!is.dom(el)) return;
-  const str = el.style.transform || '';
+  const str = el.style.transform || el.style.webkitTransform || ''
   const reg  = /(\w+)\(([^)]*)\)/g;
   const transforms = new Map();
   let m; while (m = reg.exec(str)) transforms.set(m[1], m[2]);
@@ -523,7 +523,7 @@ function getRectLength(el) {
 
 function getLineLength(el) {
   return getDistance(
-    {x: getAttribute(el, 'x1'), y: getAttribute(el, 'y1')}, 
+    {x: getAttribute(el, 'x1'), y: getAttribute(el, 'y1')},
     {x: getAttribute(el, 'x2'), y: getAttribute(el, 'y2')}
   );
 }
@@ -767,7 +767,11 @@ const setProgressValue = {
     if (p === transforms.last || manual) {
       let str = '';
       transforms.list.forEach((value, prop) => { str += `${prop}(${value}) `; });
-      t.style.transform = str;
+      if (t.style.transform) {
+        t.style.transform = str
+      } else if (t.style.webkitTransform) {
+        t.style.webkitTransform = str
+      }
     }
   }
 }
@@ -858,7 +862,7 @@ let pausedInstances = [];
 let raf;
 
 const engine = (() => {
-  function play() { 
+  function play() {
     raf = requestAnimationFrame(step);
   }
   function step(t) {
